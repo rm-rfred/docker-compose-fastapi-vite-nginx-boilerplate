@@ -1,15 +1,15 @@
 services:
-  # nginx:
-  #   image: nginx:1.27.0
-  #   restart: always
-  #   volumes:
-  #       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
-  #       - /srv/docker/face-restoration/logs:/var/log/nginx/
-  #   ports:
-  #       - 10136:80
-  #   depends_on:
-  #       - frontend
-  #       - backend
+  nginx:
+    image: nginx:1.27.0
+    restart: always
+    volumes:
+        - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        - /srv/docker/face-restoration/logs:/var/log/nginx/
+    ports:
+        - 10136:80
+    depends_on:
+        - frontend
+        - backend
 
   backend:
     image: rmrfred/docker-compose-fastapi-vite-nginx-boilerplate-backend:devel
@@ -38,5 +38,3 @@ services:
     volumes:
       - ./frontend:/app # Synchronise docker container with local change
       - /app/node_modules # Avoid re-copying local node_modules. Cache in volume. See https://stackoverflow.com/questions/29181032/add-a-volume-to-docker-but-exclude-a-sub-folder
-    ports:
-      - "5173:5173"
