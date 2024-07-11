@@ -5,7 +5,7 @@ WORKDIR /app
 ENV DEBIAN_FRONTEND noninteractive && \
     PYTHONPATH . && \
     PYTHONDONTWRITEBYTECODE 1 && \
-    API_ENV DEV
+    API_ENV PROD
 
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
@@ -24,8 +24,8 @@ COPY ./requirements.txt /requirements.txt
 
 RUN python3.11 -m pip install -r /requirements.txt
 
-COPY ./entrypoint.sh /entrypoint.sh
+COPY ./prod.entrypoint.sh /prod.entrypoint.sh
 
-RUN chmod 755 /entrypoint.sh
+RUN chmod 755 /prod.entrypoint.sh
 
-CMD [ "/entrypoint.sh" ]
+CMD [ "/prod.entrypoint.sh" ]

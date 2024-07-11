@@ -16,12 +16,13 @@ services:
     restart: always
     build: 
       context: backend
-      dockerfile: Dockerfile
+      dockerfile: prod.Dockerfile
     container_name: docker-compose-fastapi-vite-nginx-boilerplate-backend
     environment:
       API_VERSION: 1.0.0
-      API_ENV: "DEV"
+      API_ENV: "PROD"
       PYTHONPATH: .
+      NUM_WORKERS: ${NUM_WORKERS}
     volumes:
       - ./backend/app:/app
 
@@ -31,10 +32,10 @@ services:
     stdin_open: true
     build: 
       context: frontend
-      dockerfile: Dockerfile
+      dockerfile: prod.Dockerfile
     container_name: docker-compose-fastapi-vite-nginx-boilerplate-frontend
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
       CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ./frontend:/app
