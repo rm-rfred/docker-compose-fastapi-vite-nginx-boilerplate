@@ -1,17 +1,21 @@
-FROM node:21
+FROM node:21 AS base
 
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+COPY ./ /app
 WORKDIR /app
 
-COPY package*.json /app/
+FROM base AS prod-deps
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
 
-COPY ./ /app/
+FROM base AS build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install
+RUN pnpm run build
 
-ARG FRONTEND_ENV=production
-
-ENV VITE_APP_ENV=${FRONTEND_ENV}
-
+FROM base
+COPY --from=prod-deps /app/node_modules /app/node_modules
+COPY --from=build /app/dist /app/dist
 COPY ./entrypoint.sh /entrypoint.sh
-
 RUN chmod 755 /entrypoint.sh
-
 CMD [ "/entrypoint.sh" ]
