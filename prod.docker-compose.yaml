@@ -36,7 +36,6 @@ services:
     container_name: docker-compose-fastapi-vite-nginx-boilerplate-frontend
     environment:
       NODE_ENV: production
-      CHOKIDAR_USEPOLLING: "true"
     volumes:
       - ./frontend:/app
       - /app/node_modules
