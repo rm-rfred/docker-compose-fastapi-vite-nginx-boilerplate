@@ -18,12 +18,10 @@ RUN python3.11 get-pip.py
 RUN rm get-pip.py
 
 RUN python3.11 -m pip install --upgrade pip==23.3.2
-
-
 COPY ./requirements.txt /requirements.txt
-
 RUN python3.11 -m pip install -r /requirements.txt
 
+COPY ./static /static
 COPY ./prod.entrypoint.sh /prod.entrypoint.sh
 
 RUN chmod 755 /prod.entrypoint.sh

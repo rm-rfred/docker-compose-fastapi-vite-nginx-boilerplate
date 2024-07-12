@@ -5,39 +5,47 @@ from fastapi.openapi.docs import (
     get_swagger_ui_html,
 )
 from fastapi.responses import Response
+from fastapi.staticfiles import StaticFiles
 import uvicorn
 
-root_router = APIRouter()
-app = FastAPI(title="DOCKER COMPOSE FASTAPI VITE NGINX BOILERPLATE API", openapi_url="/api/openapi.json")
+api_router = APIRouter()
+
+app = FastAPI(
+    docs_url=None,
+    redoc_url=None,
+    openapi_url=None,
+    title="DOCKER COMPOSE FASTAPI VITE NGINX BOILERPLATE API",
+)
+app.include_router(api_router, prefix="/api")
+
+app.openapi_url = "/api/openapi.json"
+app.setup()
+
+app.mount("/api/static", StaticFiles(directory="/static"), name="static")
 
 
 @app.get("/api/docs", include_in_schema=False)
 async def custom_swagger_ui_html():
-    """
-    Get Swagger doc
-    :return: HTML Page
-    """
     return get_swagger_ui_html(
         openapi_url=app.openapi_url,
         title=app.title + " - Swagger UI",
         oauth2_redirect_url="/api" + app.swagger_ui_oauth2_redirect_url,
+        swagger_js_url="/api/static/swagger-ui-bundle.js",
+        swagger_css_url="/api/static/swagger-ui.css",
         swagger_favicon_url="#",
     )
 
 
 @app.get("/api/redoc", include_in_schema=False)
 async def redoc_html():
-    """
-    Redoc Swagger page
-    :return: HTML Page
-    """
     return get_redoc_html(
         openapi_url=app.openapi_url,
-        title=app.title + " - Redoc",
-        redoc_favicon_url="#",
+        title=app.title + " - ReDoc",
+        redoc_js_url="/api/static/redoc.standalone.js",
     )
 
-origins = ["http://localhost", "http://frontend:5173", "*"]
+
+origins = ["http://localhost", "http://frontend:5173"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -58,7 +66,4 @@ async def root() -> Response:
 
 
 if __name__ == "__main__":
-    uvicorn.run("main:app",
-                host="0.0.0.0",
-                reload=True,
-                port=842)
+    uvicorn.run("main:app", host="0.0.0.0", reload=True, port=842)
