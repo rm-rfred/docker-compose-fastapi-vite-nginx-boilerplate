@@ -6,7 +6,7 @@ services:
         - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
         - /srv/docker/face-restoration/logs:/var/log/nginx/
     ports:
-        - 10136:80
+        - ${HOST_PORT}:80
     depends_on:
         - frontend
         - backend
