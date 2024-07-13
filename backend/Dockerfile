@@ -2,11 +2,6 @@ FROM ubuntu:24.04
 
 WORKDIR /app
 
-ENV DEBIAN_FRONTEND noninteractive && \
-    PYTHONPATH . && \
-    PYTHONDONTWRITEBYTECODE 1 && \
-    API_ENV DEV
-
 RUN apt-get update && \
     apt-get install -y software-properties-common && \
     add-apt-repository 'ppa:deadsnakes/ppa' && \
