@@ -1,2 +1,2 @@
 #!/bin/sh
-pnpm run start --host
+serve /app/dist -sl tcp://0.0.0.0:5173

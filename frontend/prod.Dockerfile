@@ -7,15 +7,14 @@ COPY ./ /app
 WORKDIR /app
 
 FROM base AS prod-deps
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod --frozen-lockfile
-
-FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN pnpm run build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --prod
 
 FROM base
 COPY --from=prod-deps /app/node_modules /app/node_modules
-COPY --from=build /app/dist /app/dist
 COPY ./prod.entrypoint.sh /prod.entrypoint.sh
+
+RUN pnpm install --global --verbose serve@14.2.3
+RUN pnpm run build
+
 RUN chmod 755 /prod.entrypoint.sh
 CMD [ "/prod.entrypoint.sh" ]
