@@ -1,15 +1,15 @@
-import { Box, Toolbar } from '@mui/material'
-import { Outlet } from 'react-router-dom'
+import { Box, Toolbar } from "@mui/material";
+import { Outlet } from "react-router-dom";
 
 export default function Root() {
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: "flex" }}>
       <Box
-        component='main'
+        component="main"
         sx={{
           flexGrow: 1,
-          height: '100vh',
-          overflow: 'auto',
+          height: "100vh",
+          overflow: "auto",
           paddingBottom: 5,
         }}
       >
@@ -17,5 +17,5 @@ export default function Root() {
         <Outlet />
       </Box>
     </Box>
-  )
+  );
 }
