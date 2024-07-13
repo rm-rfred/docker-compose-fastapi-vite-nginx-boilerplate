@@ -1,2 +1,2 @@
 #!/bin/sh
-pnpm run dev --host
+pnpm run start --host
