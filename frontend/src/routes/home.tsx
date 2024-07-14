@@ -10,6 +10,14 @@ export default function Home() {
               <Box
                 component="img"
                 sx={{
+                  width: 350
+                }}
+                alt="Docker compose"
+                src="docker_compose.png"
+                />
+              <Box
+                component="img"
+                sx={{
                   width: 250,
                 }}
                 alt="Docker"
