@@ -30,4 +30,4 @@ docker compose -f prod.docker-compose.yaml up -d
 ```
 
 **With regards to the host port setup in your .env file**, you can access the project throw your [browser](http://172.17.0.1:10136).
-Default port is 10136.
+Default port is 10136 and can be modified in .env file.
